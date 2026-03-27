@@ -57,7 +57,7 @@ def tool_calling():
     are printed. Uses llama3.1 which supports function/tool calling.
     """
     llm = ChatOllama(
-        model="llama3.1",
+        model="llama3.1:8b",
         validate_model_on_init=True,
         temperature=0,
     ).bind_tools([get_weather])
