@@ -102,7 +102,7 @@ def tool_calling():
     print(res.content)
 
 
-def multimodal():
+def multimodal_calling():
     """
     Demonstrates multimodal (vision) input with a local Ollama model.
 
@@ -127,7 +127,7 @@ def multimodal():
     print(llm.invoke([msg]))
 
 
-def reasoning():
+def reasoning_calling():
     """
     Demonstrates thinking/reasoning mode using a custom message role.
 

@@ -106,7 +106,7 @@ class AstronomySchema(BaseModel):
 
     @field_validator("moonrise", "moonset", "sunrise", "sunset", mode="before")
     @classmethod
-    def parse_time(cls, v):
+    def parse_astronomy_times(cls, v):
         if isinstance(v, str):
             # Converts "12:10 PM" to a Python time object
             return datetime.strptime(v, "%I:%M %p").time()

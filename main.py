@@ -1,13 +1,13 @@
 import sys
 
-from src.basics import multimodal, reasoning, tool_calling
+from src.basics import tool_calling, multimodal_calling, reasoning_calling
 
 
 def main():
     commands = {
         "tool_calling": tool_calling,
-        "multimodal": multimodal,
-        "reasoning": reasoning,
+        "multimodal_calling": multimodal_calling,
+        "reasoning_calling": reasoning_calling,
     }
 
     key = sys.argv[1] if len(sys.argv) > 1 else next(iter(commands))
