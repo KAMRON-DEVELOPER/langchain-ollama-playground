@@ -1,18 +1,27 @@
-# Langchain Ollama
+# Langchain Ollama Playground
 
 ## Installation
 
 > [!NOTE]
-> [Linux](https://docs.ollama.com/linux)
+> For more details, refer to the [Ollama Linux documentation](https://docs.ollama.com/linux) and the [ArchWiki](https://wiki.archlinux.org/title/Ollama).
 >
-> [ArchWiki](https://wiki.archlinux.org/title/Ollama)
+> *Warning: `ollama-vulkan` may experience performance issues on older hardware.*
 
 ```bash
+sudo pacman -S ollama
+# or
 sudo pacman -S ollama-vulkan
+```
+
+start the service, so we don't need to run `ollama server` every time.
+
+```bash
 sudo systemctl enable --now ollama.service
 ```
 
-### Change models directory
+### Configuring a Custom Models Directory
+
+By default, Ollama stores models in the root directory(`/var/lib/ollama`). To change this to a custom user directory:
 
 ```bash
 mkdir -p ~/ollama
@@ -21,16 +30,19 @@ sudo mkdir -p /etc/systemd/system/ollama.service.d/
 sudo nvim /etc/systemd/system/ollama.service.d/override.conf
 ```
 
-Add this to `/etc/systemd/system/ollama.service.d/override.conf` file
+Add the following environment variables to your /etc/systemd/system/ollama.service.d/override.conf file:
 
 > [!NOTE]
 > You can peek `/usr/lib/systemd/system/ollama.service`
 
 ```conf
 [Service]
+Environment="OLLAMA_HOST=0.0.0.0:11434"
 Environment="OLLAMA_MODELS=/home/kamronbek/ollama"
 ProtectHome=no
 ```
+
+Apply the changes and restart the daemon:
 
 ```bash
 sudo systemctl daemon-reload
@@ -102,10 +114,21 @@ ollama pull deepseek-r1:14b
 ollama pull yi-coder:9b
 ```
 
-I choose `qwen3.5:9b`,`qwen2.5-coder:14b`, `deepseek-r1:14b`, `llama3.1:8b`. Size ~29,5GB.
+### Selected Models
+
+For this project, I am utilizing a ~29.5GB stack of the following models:
+
+- qwen3.5:9b (Vision, Tools, Thinking)
+- qwen2.5-coder:14b (Code generation)
+- deepseek-r1:14b (Advanced reasoning)
+- llama3.1:8b (General tools)
 
 ## Project Setup
 
 ```bash
-uv add python-dotenv langchain-ollama
+uv add langchain langchain-ollama python-dotenv pydantic pyrefly
+```
+
+```bash
+uv add --dev basedpyright ruff black
 ```
