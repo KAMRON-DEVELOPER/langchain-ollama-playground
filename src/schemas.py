@@ -1,16 +1,15 @@
 from pydantic import field_validator
 from datetime import datetime, date, time
-from typing import List
 
 from pydantic import BaseModel, Field
 
 
 # WttrResponse
 class WttrResponse(BaseModel):
-    current_condition: List[CurrentConditionSchema]
-    nearest_area: List[NearestAreaSchema]
-    request: List[RequestSchema]
-    weather: List[WeatherSchema]
+    current_condition: list[CurrentConditionSchema]
+    nearest_area: list[NearestAreaSchema]
+    request: list[RequestSchema]
+    weather: list[WeatherSchema]
 
 
 ## CurrentConditionSchema
@@ -39,8 +38,8 @@ class CurrentConditionSchema(BaseModel):
     visibility: int
     visibility_miles: int = Field(alias="visibilityMiles")
     weather_code: int = Field(alias="weather_code")
-    weather_desc: List[WeatherDescSchema] = Field(alias="weatherDesc")
-    weather_icon_url: List[WeatherIconUrlSchema] = Field(alias="weatherIconUrl")
+    weather_desc: list[WeatherDescSchema] = Field(alias="weatherDesc")
+    weather_icon_url: list[WeatherIconUrlSchema] = Field(alias="weatherIconUrl")
     wind_dir_16_point: str = Field(alias="winddir16Point")
     wind_dir_degree: int = Field(alias="winddirDegree")
     wind_speed_kmph: int = Field(alias="windspeedKmph")
@@ -73,13 +72,13 @@ class WeatherUrlSchema(BaseModel):
 
 
 class NearestAreaSchema(BaseModel):
-    area_name: List[AreaNameSchema] = Field(alias="areaName")
-    country: List[CountrySchema]
+    area_name: list[AreaNameSchema] = Field(alias="areaName")
+    country: list[CountrySchema]
     latitude: float
     longitude: float
     population: int
-    region: List[RegionSchema]
-    weather_url: List[WeatherUrlSchema] = Field(alias="weatherUrl")
+    region: list[RegionSchema]
+    weather_url: list[WeatherUrlSchema] = Field(alias="weatherUrl")
 
 
 ## RequestSchema
@@ -135,8 +134,8 @@ class HourlySchema(BaseModel):
     visibility: int
     visibility_miles: int = Field(alias="visibilityMiles")
     weather_code: int = Field(alias="weather_code")
-    weather_desc: List[WeatherDescSchema] = Field(alias="weatherDesc")
-    weather_icon_url: List[WeatherIconUrlSchema] = Field(alias="weatherIconUrl")
+    weather_desc: list[WeatherDescSchema] = Field(alias="weatherDesc")
+    weather_icon_url: list[WeatherIconUrlSchema] = Field(alias="weatherIconUrl")
     wind_dir_16_point: str = Field(alias="winddir16Point")
     wind_dir_degree: int = Field(alias="winddirDegree")
     wind_speed_kmph: int = Field(alias="windspeedKmph")
@@ -144,11 +143,11 @@ class HourlySchema(BaseModel):
 
 
 class WeatherSchema(BaseModel):
-    astronomy: List[AstronomySchema]
+    astronomy: list[AstronomySchema]
     avg_temp_c: int = Field(alias="avgtempC")
     avg_temp_f: int = Field(alias="avgtempF")
     date: date
-    hourly: List[HourlySchema]
+    hourly: list[HourlySchema]
     max_temp_c: int = Field(alias="maxtempC")
     max_temp_f: int = Field(alias="maxtempF")
     min_temp_c: int = Field(alias="mintempC")

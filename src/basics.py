@@ -2,9 +2,8 @@ import base64
 from io import BytesIO
 
 import requests
-from langchain.messages import HumanMessage
 from langchain.tools import tool
-from langchain_core.messages import ChatMessage
+from langchain_core.messages import HumanMessage, ToolMessage, ChatMessage, AnyMessage
 from langchain_ollama import ChatOllama
 from PIL import Image
 
@@ -56,17 +55,51 @@ def tool_calling():
     If the model decides to call a tool, the resulting tool_calls
     are printed. Uses llama3.1 which supports function/tool calling.
     """
+    tools = [get_weather]
+    tools_names = {t.name: t for t in tools}
+
     llm = ChatOllama(
         model="llama3.1:8b",
         validate_model_on_init=True,
         temperature=0,
-    ).bind_tools([get_weather])
+    ).bind_tools(tools)
 
-    result = llm.invoke("What is the current weather in Tashkent?")
+    messages: list[AnyMessage] = [
+        HumanMessage(content="What is the current weather in Tashkent?")
+    ]
 
-    print("result: ", result)
-    print("result.content: ", result.content)
-    print("result.tool_calls: ", result.tool_calls)
+    print("Asking the LLM...")
+    ai_msg = llm.invoke(messages)
+    messages.append(ai_msg)
+
+    if ai_msg.tool_calls:
+        print(f"AI requested {len(ai_msg.tool_calls)} tool call(s).")
+
+        for tool_call in ai_msg.tool_calls:
+            tool_id = tool_call.get("id")
+            tool_name = tool_call.get("name")
+            tool_args = tool_call.get("args")
+
+            if tool_name in tools_names:
+                print(f"Executing tool: {tool_name} with args {tool_args}")
+                tool_to_run = tools_names[tool_name]
+                tool_output = tool_to_run.invoke(tool_args)
+
+                messages.append(
+                    ToolMessage(content=str(tool_output), tool_call_id=tool_id)
+                )
+            else:
+                messages.append(
+                    ToolMessage(
+                        content=f"Error: Tool {tool_name} does not exist.",
+                        tool_call_id=tool_call.get("id"),
+                    )
+                )
+        res = llm.invoke(messages)
+    else:
+        res = ai_msg
+
+    print(res.content)
 
 
 def multimodal():
@@ -110,5 +143,5 @@ def reasoning():
         HumanMessage("What is 3^3?"),
     ]
 
-    response = llm.invoke(messages)
-    print(response.content)
+    res = llm.invoke(messages)
+    print(res.content)
