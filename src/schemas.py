@@ -28,7 +28,7 @@ class CurrentConditionSchema(BaseModel):
     humidity: int
     local_obs_date_time: datetime = Field(alias="localObsDateTime")
     observation_time: time
-    precip_inches: float
+    precip_inches: float = Field(alias="precipInches")
     precip_mm: float = Field(alias="precipMM")
     pressure: int
     pressure_inches: int = Field(alias="pressureInches")
@@ -37,7 +37,7 @@ class CurrentConditionSchema(BaseModel):
     uv_index: int = Field(alias="uvIndex")
     visibility: int
     visibility_miles: int = Field(alias="visibilityMiles")
-    weather_code: int = Field(alias="weather_code")
+    weather_code: int = Field(alias="weatherCode")
     weather_desc: list[WeatherDescSchema] = Field(alias="weatherDesc")
     weather_icon_url: list[WeatherIconUrlSchema] = Field(alias="weatherIconUrl")
     wind_dir_16_point: str = Field(alias="winddir16Point")
@@ -45,9 +45,17 @@ class CurrentConditionSchema(BaseModel):
     wind_speed_kmph: int = Field(alias="windspeedKmph")
     wind_speed_miles: int = Field(alias="windspeedMiles")
 
+    @field_validator("observation_time", mode="before")
+    @classmethod
+    def parse_time(cls, v):
+        if isinstance(v, str):
+            # Converts "12:10 PM" to a Python time object
+            return datetime.strptime(v, "%I:%M %p").time()
+        return v
+
     @field_validator("local_obs_date_time", mode="before")
     @classmethod
-    def parse_timestamp(cls, v):
+    def parse_datetime(cls, v):
         if isinstance(v, str):
             # Handles the specific format "2026-03-27 12:05 PM"
             return datetime.strptime(v, "%Y-%m-%d %I:%M %p")
@@ -96,6 +104,14 @@ class AstronomySchema(BaseModel):
     sunrise: time
     sunset: time
 
+    @field_validator("moonrise", "moonset", "sunrise", "sunset", mode="before")
+    @classmethod
+    def parse_time(cls, v):
+        if isinstance(v, str):
+            # Converts "12:10 PM" to a Python time object
+            return datetime.strptime(v, "%I:%M %p").time()
+        return v
+
 
 ### HourlySchema
 class HourlySchema(BaseModel):
@@ -122,8 +138,8 @@ class HourlySchema(BaseModel):
     cloud_cover: int = Field(alias="cloudcover")
     diffRad: float
     humidity: int
-    precipInches: float
-    precip_mm: int = Field(alias="precipMM")
+    precip_inches: float = Field(alias="precipInches")
+    precip_mm: float = Field(alias="precipMM")
     pressure: int
     pressure_inches: int = Field(alias="pressureInches")
     shortRad: float
@@ -133,7 +149,7 @@ class HourlySchema(BaseModel):
     uv_index: int = Field(alias="uvIndex")
     visibility: int
     visibility_miles: int = Field(alias="visibilityMiles")
-    weather_code: int = Field(alias="weather_code")
+    weather_code: int = Field(alias="weatherCode")
     weather_desc: list[WeatherDescSchema] = Field(alias="weatherDesc")
     weather_icon_url: list[WeatherIconUrlSchema] = Field(alias="weatherIconUrl")
     wind_dir_16_point: str = Field(alias="winddir16Point")
