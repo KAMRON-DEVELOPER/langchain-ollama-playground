@@ -6,7 +6,12 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "langchain>=1.2.13",
+    "langchain-cerebras>=0.8.2",
+    "langchain-groq>=1.1.2",
+    "langchain-huggingface>=1.2.1",
     "langchain-ollama>=1.0.1",
+    "langchain-openrouter==0.2.0",
+    "openrouter==0.7.11",
     "pillow>=12.1.1",
     "pydantic>=2.12.5",
     "pyrefly>=0.58.0",
