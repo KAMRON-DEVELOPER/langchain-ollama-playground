@@ -138,10 +138,11 @@ ollama pull yi-coder:9b
 
 ### Selected Models
 
-For this project, I am utilizing a ~36.5GB stack of the following models:
+For this project, I am utilizing a ~38.6GB stack of the following models:
 
 - qwen3.5:4b (vision, tools, thinking)
 - nemotron-3-nano:4b (tools, thinking, agentic workflow)
+- granite4:3b (tools)
 - phi4-mini:3.8b (reasoning, planning)
 - granite3.1-moe:3b (reasoning, planning)
 - qwen3.5:9b (vision, tools, thinking)
