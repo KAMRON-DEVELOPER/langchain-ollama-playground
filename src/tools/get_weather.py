@@ -1,4 +1,4 @@
-import json
+from pprint import pprint
 
 import requests
 
@@ -42,6 +42,6 @@ def get_weather(city: str) -> dict:
         ],
     }
 
-    print("report: ", json.dumps(report, indent=4))
+    pprint(report)
 
     return report

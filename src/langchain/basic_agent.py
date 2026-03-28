@@ -1,5 +1,5 @@
-import json
 from dataclasses import dataclass, field
+from pprint import pprint
 
 from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.memory import InMemorySaver
@@ -86,8 +86,8 @@ def basic_agent():
         context=ctx,
     )
 
-    print("res: ", json.dumps(res, indent=4))
-    print("structured_response: ", json.dumps(res.get("structured_response"), indent=4))
+    pprint(res)
+    pprint(res.get("structured_response"))
 
     # Note that we can continue the conversation using the same `thread_id`.
     # res = agent.invoke(
