@@ -1,7 +1,6 @@
-from pydantic import field_validator
-from datetime import datetime, date, time
+from datetime import date, datetime, time
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 # WttrResponse
