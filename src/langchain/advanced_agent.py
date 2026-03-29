@@ -66,6 +66,39 @@ def advanced_agent():
         latest_message = messages[-1]
         print_message(latest_message)
 
+    inputs = [
+        {
+            "messages": [
+                HumanMessage(content="Why do parrots have colorful feathers?")
+            ],
+            "user_preferences": {"style": "technical", "verbosity": "detailed"},
+        },
+        {
+            "messages": [HumanMessage(content="How do airplanes fly?")],
+            "user_preferences": {"style": "technical", "verbosity": "detailed"},
+        },
+        {
+            "messages": [HumanMessage(content="What is quantum computing?")],
+            "user_preferences": {"style": "technical", "verbosity": "detailed"},
+        },
+    ]
+    for idx, chunk in agent.batch_as_completed(
+        inputs,  # type: ignore
+        config={
+            "max_concurrency": 5,
+        },
+    ):
+        state = cast(CustomState, chunk)
+
+        messages = state.get("messages", [])
+        if not messages:
+            continue
+
+        latest_message = messages[-1]
+
+        print(f"\n--- Result for index #{idx} ---")
+        print_message(latest_message)
+
 
 def print_message(msg: AnyMessage):
     if isinstance(msg, HumanMessage):
