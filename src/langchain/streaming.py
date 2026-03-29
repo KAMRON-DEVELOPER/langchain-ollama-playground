@@ -4,7 +4,7 @@ from typing import Annotated, cast
 from langchain_core.messages import AnyMessage
 from langgraph.graph.message import add_messages
 
-from integrations.cerebras.main import create_cerebras_model
+from src.integrations.cerebras.main import create_cerebras_model
 
 # from integrations.groq.main import create_groq_model
 # from integrations.huggingface.main import create_huggingface_model
