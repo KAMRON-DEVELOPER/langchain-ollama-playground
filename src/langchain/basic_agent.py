@@ -1,11 +1,11 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pprint import pprint
 
 from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.memory import InMemorySaver
+from pydantic import BaseModel, Field
 
 from langchain.agents import create_agent
-from langchain.agents.structured_output import ToolStrategy
 from langchain.tools import ToolRuntime, tool
 from src.integrations.ollama.llm import get_llm
 from src.tools.get_weather import get_weather
@@ -17,8 +17,6 @@ Use tools to answer weather questions.
 - If a user asks about weather, call get_weather.
 - If no city is mentioned, call get_user_location first.
 
-IMPORTANT: Always return your final answer by calling the `ResponseSchema` tool.
-Never return a plain text response.
 Do not answer from memory.
 """
 
@@ -30,19 +28,18 @@ class Context:
     user_id: str
 
 
-@dataclass
-class ResponseSchema:
+class ResponseSchema(BaseModel):
     """Response schema for the agent."""
 
     response: str
-    city: str = ""
-    country: str = ""
-    temperature_c: str = ""
-    feels_like_c: str = ""
-    conditions: str = ""
-    humidity: str = ""
-    wind: str = ""
-    forecast: list[str] = field(default_factory=list)
+    city: str
+    country: str
+    temperature_c: str
+    feels_like_c: str
+    conditions: str
+    humidity: str
+    wind: str
+    forecast: list[str] = Field(default_factory=list)
 
 
 @tool
@@ -69,7 +66,7 @@ def basic_agent():
         checkpointer=checkpointer,
         system_prompt=SYSTEM_PROMPT,
         tools=[get_user_location, get_weather],
-        response_format=ToolStrategy(ResponseSchema),
+        response_format=ResponseSchema,
     )
 
     # `thread_id` is a unique identifier for a given conversation.
