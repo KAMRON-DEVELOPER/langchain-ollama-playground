@@ -1,4 +1,4 @@
-from src.integrations.ollama.llm import get_llm
+from src.integrations.ollama.main import create_ollama_model
 
 
 def invocation():
@@ -10,12 +10,11 @@ def invocation():
     reasoning mode, or multimodal input — it is intended to show
     the minimal request/response workflow.
     """
-
-    llm = get_llm(model="granite3.1-moe:3b")
+    model = create_ollama_model(model="granite3.1-moe:3b")
 
     messages = [
         ("system", "You are a helpful assistant"),
         ("human", "what is Rust programming language?"),
     ]
-    ai_msg = llm.invoke(messages)
+    ai_msg = model.invoke(messages)
     print(ai_msg.content)

@@ -1,6 +1,6 @@
 from langchain_core.messages import ChatMessage, HumanMessage
 
-from src.integrations.ollama.llm import get_llm
+from src.integrations.ollama.main import create_ollama_model
 
 
 def reasoning():
@@ -12,7 +12,7 @@ def reasoning():
     non-standard message role, `ChatMessage` is used instead of `HumanMessage`
     or `SystemMessage`.
     """
-    llm = get_llm(model="nemotron-3-nano:4b")
+    llm = create_ollama_model(model="nemotron-3-nano:4b")
 
     messages = [
         ChatMessage(role="control", content="thinking"),

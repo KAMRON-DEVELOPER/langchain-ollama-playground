@@ -1,6 +1,6 @@
 from langchain_core.messages import AnyMessage, HumanMessage, ToolMessage
 
-from src.integrations.ollama.llm import get_llm
+from src.integrations.ollama.main import create_ollama_model
 from src.tools.get_weather import get_weather
 
 
@@ -20,7 +20,7 @@ def tool_calling():
     tools = [get_weather]
     tools_names = {t.name: t for t in tools}
 
-    llm = get_llm(
+    model = create_ollama_model(
         model="qwen3.5:4b", validate_model_on_init=True, num_gpu=0
     ).bind_tools(tools)
 
@@ -28,7 +28,7 @@ def tool_calling():
         HumanMessage(content="What is the current weather in Tashkent?")
     ]
 
-    ai_msg = llm.invoke(messages)
+    ai_msg = model.invoke(messages)
     messages.append(ai_msg)
 
     if ai_msg.tool_calls:
@@ -51,7 +51,7 @@ def tool_calling():
                         tool_call_id=tool_call.get("id"),
                     )
                 )
-        res = llm.invoke(messages)
+        res = model.invoke(messages)
     else:
         res = ai_msg
 

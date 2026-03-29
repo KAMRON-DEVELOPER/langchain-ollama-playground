@@ -8,24 +8,32 @@ from langchain_groq import ChatGroq
 from pydantic import SecretStr
 
 
-def main():
-    """"""
+def create_groq_model(model: str = "qwen/qwen3-32b"):
+    """
+    Helper to create a model.
+
+    Args:
+        model (str): model name. (e.g. llama-3.1-8b-instant, llama-3.3-70b-versatile, qwen/qwen3-32b, openai/gpt-oss-20b, openai/gpt-oss-120b)
+    """
+
+    dotenv_path = Path(__file__).parent.parent.parent.parent / ".env"
+    load_dotenv(dotenv_path)
 
     api_key = SecretStr(os.environ.get("GROQ_API_KEY", ""))
 
     if not api_key.get_secret_value():
-        print("GROQ_API_KEY environment variable not set")
-        return
+        raise Exception("GROQ_API_KEY environment variable not set")
 
-    llm = ChatGroq(model="qwen/qwen3-32b")
+    return ChatGroq(model=model)
 
+
+def main():
+    """"""
+    model = create_groq_model()
     messages = [HumanMessage(content="what is Elixir programming language?")]
-    res = llm.invoke(messages)
+    res = model.invoke(messages)
     pprint(res.content)
 
 
 if __name__ == "__main__":
-    dotenv_path = Path(__file__).parent.parent.parent.parent / ".env"
-    load_dotenv(dotenv_path)
-
     main()

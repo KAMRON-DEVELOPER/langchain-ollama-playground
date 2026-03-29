@@ -5,7 +5,7 @@ from pathlib import Path
 from langchain_core.messages import HumanMessage
 from PIL import Image
 
-from src.integrations.ollama.llm import get_llm
+from src.integrations.ollama.main import create_ollama_model
 
 
 def multimodal():
@@ -19,7 +19,7 @@ def multimodal():
         3. Invoke the model and print its description of the image.
     """
 
-    llm = get_llm(model="qwen3.5:4b")
+    llm = create_ollama_model(model="qwen3.5:4b")
 
     fp = Path(__file__).parent.parent.parent / "assets" / "llama.jpg"
     img = Image.open(fp)
