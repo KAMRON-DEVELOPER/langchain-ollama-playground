@@ -7,7 +7,7 @@ from langgraph.graph.message import add_messages
 from langchain.agents import AgentState, create_agent
 from langchain.agents.middleware import AgentMiddleware
 from langchain.messages import AIMessage, HumanMessage
-from src.integrations.ollama.main import create_ollama_model
+from src.integrations.ollama.model import create_ollama_model
 
 
 class CustomState(AgentState):

@@ -2,7 +2,7 @@ from pprint import pprint
 
 from langchain.agents import AgentState, create_agent
 from langchain.agents.middleware import AgentMiddleware
-from src.integrations.ollama.main import create_ollama_model
+from src.integrations.ollama.model import create_ollama_model
 
 
 class CustomState(AgentState):

@@ -5,7 +5,7 @@ from pathlib import Path
 from langchain_core.messages import HumanMessage
 from PIL import Image
 
-from src.integrations.ollama.main import create_ollama_model
+from src.integrations.ollama.model import create_ollama_model
 
 
 def multimodal():

@@ -1,6 +1,6 @@
 from langchain_core.messages import AnyMessage, HumanMessage, ToolMessage
 
-from src.integrations.ollama.main import create_ollama_model
+from src.integrations.ollama.model import create_ollama_model
 from src.tools.get_weather import get_weather
 
 

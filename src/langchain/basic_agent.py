@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 from langchain.agents import create_agent
 from langchain.tools import ToolRuntime, tool
-from src.integrations.ollama.main import create_ollama_model
+from src.integrations.ollama.model import create_ollama_model
 from src.tools.get_weather import get_weather
 
 SYSTEM_PROMPT = """

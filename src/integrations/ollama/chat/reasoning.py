@@ -1,6 +1,6 @@
 from langchain_core.messages import ChatMessage, HumanMessage
 
-from src.integrations.ollama.main import create_ollama_model
+from src.integrations.ollama.model import create_ollama_model
 
 
 def reasoning():
