@@ -25,7 +25,7 @@ class CustomMiddleware(AgentMiddleware):
     state_schema = CustomState
 
 
-def streaming():
+def advanced_agent():
     """"""
     # model = create_ollama_model(model="qwen3.5:4b", temperature=0, num_gpu=0)
     model = create_cerebras_model()

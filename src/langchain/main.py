@@ -1,11 +1,11 @@
 import sys
 
 from src.langchain.basic_agent import basic_agent
-from src.langchain.streaming import streaming
+from src.langchain.advanced_agent import advanced_agent
 
 
 def main():
-    commands = {"basic_agent": basic_agent, "streaming": streaming}
+    commands = {"basic_agent": basic_agent, "advanced_agent": advanced_agent}
 
     key = sys.argv[1] if len(sys.argv) > 1 else next(iter(commands))
 
