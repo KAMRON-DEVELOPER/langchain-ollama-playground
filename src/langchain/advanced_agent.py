@@ -1,24 +1,23 @@
 from pprint import pprint
-from typing import Annotated, cast
+from typing import cast
 
 from langchain_core.messages import AnyMessage
-from langgraph.graph.message import add_messages
 
-from src.integrations.cerebras.main import create_cerebras_model
-
-# from integrations.groq.main import create_groq_model
-# from integrations.huggingface.main import create_huggingface_model
-# from integrations.openrouter.main import create_openrouter_model
 from langchain.agents import AgentState, create_agent
 from langchain.agents.middleware import AgentMiddleware
 from langchain.messages import AIMessage, HumanMessage
 
 # from src.integrations.ollama.model import create_ollama_model
+from src.integrations.cerebras.main import create_cerebras_model
+
+# from integrations.groq.main import create_groq_model
+# from integrations.huggingface.main import create_huggingface_model
+# from integrations.openrouter.main import create_openrouter_model
 
 
 class CustomState(AgentState):
-    messages: Annotated[list[AnyMessage], add_messages]
-    user_preferences: dict
+    user_id: str
+    preferences: dict
 
 
 class CustomMiddleware(AgentMiddleware):
@@ -39,7 +38,8 @@ def advanced_agent():
         "messages": [
             HumanMessage(content="I like Dart programming language. Do you know why?"),
         ],
-        "user_preferences": {"style": "technical", "verbosity": "detailed"},
+        "user_id": "1",
+        "preferences": {"style": "technical", "verbosity": "detailed"},
     }
 
     # The agent can now track additional state beyond messages
@@ -53,7 +53,8 @@ def advanced_agent():
         "messages": [
             HumanMessage(content="what is jQuery?"),
         ],
-        "user_preferences": {"style": "technical", "verbosity": "detailed"},
+        "user_id": "1",
+        "preferences": {"style": "technical", "verbosity": "detailed"},
     }
 
     for chunk in agent.stream(input, stream_mode="values"):  # type: ignore
@@ -71,15 +72,18 @@ def advanced_agent():
             "messages": [
                 HumanMessage(content="Why do parrots have colorful feathers?")
             ],
-            "user_preferences": {"style": "technical", "verbosity": "detailed"},
+            "user_id": "1",
+            "preferences": {"style": "technical", "verbosity": "detailed"},
         },
         {
             "messages": [HumanMessage(content="How do airplanes fly?")],
-            "user_preferences": {"style": "technical", "verbosity": "detailed"},
+            "user_id": "1",
+            "preferences": {"style": "technical", "verbosity": "detailed"},
         },
         {
             "messages": [HumanMessage(content="What is quantum computing?")],
-            "user_preferences": {"style": "technical", "verbosity": "detailed"},
+            "user_id": "1",
+            "preferences": {"style": "technical", "verbosity": "detailed"},
         },
     ]
     for idx, chunk in agent.batch_as_completed(

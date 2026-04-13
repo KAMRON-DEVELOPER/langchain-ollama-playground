@@ -1,7 +1,7 @@
 import sys
 
-from src.langchain.basic_agent import basic_agent
 from src.langchain.advanced_agent import advanced_agent
+from src.langchain.basic_agent import basic_agent
 
 
 def main():
